@@ -21,6 +21,10 @@ function App() {
   const [gasto, setGasto] = useState({});
   const [creargasto, setCrearGasto] = useState(false);
 
+  /*const total = gastos.map((gasto) => {
+    let valor = valor + gasto.cantidad;
+  });*/
+
   // useEffect que actualiza el remanente
 
   useEffect(() => {
