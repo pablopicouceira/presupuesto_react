@@ -28,6 +28,7 @@ const Pregunta = ({ setPresupuesto, setRestante, setPreguntavisible }) => {
     setPresupuesto(cantidad);
     setRestante(cantidad);
     setPreguntavisible(false);
+    localStorage.setItem("presupuesto", JSON.stringify(cantidad));
   };
 
   return (

@@ -7,10 +7,17 @@ import Control from "./components/Control";
 function App() {
   // definimos el state para el presupuesto inicial y para el restante (al principio sus valores son iguales)
 
-  const [presupuesto, setPresupuesto] = useState(0);
-  const [restante, setRestante] = useState(0);
+  let gastosIniciales = JSON.parse(localStorage.getItem("gastos"));
+  if (!gastosIniciales) {
+    gastosIniciales = [];
+  }
+  let presupuestoInicial = JSON.parse(localStorage.getItem("presupuesto"));
+  let restanteInicial = JSON.parse(localStorage.getItem("restante"));
+
+  const [presupuesto, setPresupuesto] = useState(presupuestoInicial);
+  const [restante, setRestante] = useState(restanteInicial);
   const [preguntavisible, setPreguntavisible] = useState(true);
-  const [gastos, setGastos] = useState([]);
+  const [gastos, setGastos] = useState(gastosIniciales);
   const [gasto, setGasto] = useState({});
   const [creargasto, setCrearGasto] = useState(false);
 
@@ -28,12 +35,15 @@ function App() {
     // Resetear a false
     // setCrearGasto(false) (creo que no hace falta)
   }, [gasto]);
+  localStorage.setItem("gastos", JSON.stringify(gastos));
+  localStorage.setItem("restante", JSON.stringify(restante));
 
   return (
     <div className="container">
       <header>
         <h1>Gasto Semanal</h1>;
         <div className="contenido-principal contenido">
+          {/*Si no queremos tener que actualizar el contenido quitamos la pregunta visible */}
           {preguntavisible ? (
             <Pregunta
               setPresupuesto={setPresupuesto}
