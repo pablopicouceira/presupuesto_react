@@ -3,7 +3,14 @@ import PropTypes from "prop-types";
 
 import Error from "./Error";
 
-const Pregunta = ({ setPresupuesto, setRestante, setPreguntavisible }) => {
+const Pregunta = ({
+  setPresupuesto,
+  setRestante,
+  setPreguntavisible,
+  presupuestoInicial,
+  total,
+  setGastos,
+}) => {
   // Definimos el state
   const [cantidad, setCantidad] = useState(0);
   const [error, setError] = useState(false);
@@ -28,7 +35,11 @@ const Pregunta = ({ setPresupuesto, setRestante, setPreguntavisible }) => {
     setError(false);
 
     setPresupuesto(cantidad);
-    setRestante(cantidad);
+    if (cantidad !== presupuestoInicial) {
+      setRestante(cantidad);
+      setGastos([]);
+    } else setRestante(total);
+
     setPreguntavisible(false);
     localStorage.setItem("presupuesto", JSON.stringify(cantidad));
   };

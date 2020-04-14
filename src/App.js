@@ -14,8 +14,14 @@ function App() {
   let presupuestoInicial = JSON.parse(localStorage.getItem("presupuesto"));
   let restanteInicial = JSON.parse(localStorage.getItem("restante"));
 
+  let cantidades = [];
+  gastosIniciales.forEach((gasto, index) => cantidades.push(gasto.cantidad));
+  let total = presupuestoInicial - cantidades.reduce((a, b) => a + b, 0);
+
+  console.log(restanteInicial);
+
   const [presupuesto, setPresupuesto] = useState(presupuestoInicial);
-  const [restante, setRestante] = useState(restanteInicial);
+  const [restante, setRestante] = useState(total);
   const [preguntavisible, setPreguntavisible] = useState(true);
   const [gastos, setGastos] = useState(gastosIniciales);
   const [gasto, setGasto] = useState({});
@@ -25,8 +31,13 @@ function App() {
     let valor = valor + gasto.cantidad;
   });*/
 
+  console.log(gastos);
+  console.log(cantidades);
+  console.log(total);
+
   // useEffect que actualiza el remanente
 
+  localStorage.setItem("restante", JSON.stringify(restante));
   useEffect(() => {
     if (creargasto) {
       // Agrega el nuevo presupuesto
@@ -38,9 +49,8 @@ function App() {
     }
     // Resetear a false
     // setCrearGasto(false) (creo que no hace falta)
-  }, [gasto]);
+  }, [gasto, presupuesto]);
   localStorage.setItem("gastos", JSON.stringify(gastos));
-  localStorage.setItem("restante", JSON.stringify(restante));
 
   return (
     <div className="container">
@@ -53,6 +63,9 @@ function App() {
               setPresupuesto={setPresupuesto}
               setRestante={setRestante}
               setPreguntavisible={setPreguntavisible}
+              presupuestoInicial={presupuestoInicial}
+              total={total}
+              setGastos={setGastos}
             />
           ) : (
             <div className="row">
